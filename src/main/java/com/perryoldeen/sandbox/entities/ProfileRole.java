@@ -22,6 +22,7 @@ public class ProfileRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "profileRoleId", nullable = false)
     private Long profileRoleId;
+
     @ManyToOne
     @JoinColumn(name = "profileId")
     @JsonIgnore

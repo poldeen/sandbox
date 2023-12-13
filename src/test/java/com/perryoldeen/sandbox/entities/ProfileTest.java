@@ -1,10 +1,10 @@
 package com.perryoldeen.sandbox.entities;
 
-import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProfileTest {
 
@@ -33,6 +33,24 @@ class ProfileTest {
         profile.setExternalId(value);
 
         assertEquals(value, profile.getExternalId());
+    }
+
+    @Test
+    public void getUniqueId() {
+        String value = "123xyz";
+
+        profile.setUniqueId(value);
+
+        assertEquals(value, profile.getUniqueId());
+    }
+
+    @Test
+    public void getPassword() {
+        String value = "123xyz";
+
+        profile.setPassword(value);
+
+        assertEquals(value, profile.getPassword());
     }
 
 }

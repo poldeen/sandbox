@@ -3,6 +3,9 @@ package com.perryoldeen.sandbox.entities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,6 +36,22 @@ class ProfileTest {
         profile.setExternalId(value);
 
         assertEquals(value, profile.getExternalId());
+    }
+
+    @Test
+    void getProfileRoles() {
+
+        List<ProfileRole> profileRoles = new ArrayList<>();
+        ProfileRole profileRole = new ProfileRole();
+        String profileRoleValue = "Test Role";
+        profileRole.setRole(profileRoleValue);
+
+        profileRoles.add(profileRole);
+
+        profile.setProfileRoles(profileRoles);
+
+        assertEquals(profileRoleValue, profile.getProfileRoles().get(0).getRole());
+
     }
 
     @Test

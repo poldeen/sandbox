@@ -37,11 +37,9 @@ class ProfileRoleTest {
     }
 
     @Test
-    void getRole() {
-        String value = "123xyz";
+    void getProfileRole() {
+        profileRole.setRoleName(ERole.ROLE_ADMIN);
 
-        profileRole.setRole(value);
-
-        assertEquals(value, profileRole.getRole());
+        assertEquals(ERole.ROLE_ADMIN, profileRole.getRoleName());
     }
 }

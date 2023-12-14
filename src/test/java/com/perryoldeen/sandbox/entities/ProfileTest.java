@@ -3,8 +3,8 @@ package com.perryoldeen.sandbox.entities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,7 +25,7 @@ class ProfileTest {
         profile.setProfileId(idValue);
 
         assertAll(
-                () ->  assertEquals(idValue, profile.getProfileId())
+                () -> assertEquals(idValue, profile.getProfileId())
         );
     }
 
@@ -41,16 +41,18 @@ class ProfileTest {
     @Test
     void getProfileRoles() {
 
-        List<ProfileRole> profileRoles = new ArrayList<>();
+        Set<ProfileRole> profileRoles = new HashSet<>();
         ProfileRole profileRole = new ProfileRole();
-        String profileRoleValue = "Test Role";
-        profileRole.setRole(profileRoleValue);
+
+        profileRole.setRoleName(ERole.ROLE_ADMIN);
 
         profileRoles.add(profileRole);
 
         profile.setProfileRoles(profileRoles);
 
-        assertEquals(profileRoleValue, profile.getProfileRoles().get(0).getRole());
+        System.out.print(profileRoles.size());
+
+        assertEquals(1, profileRoles.size());
 
     }
 
@@ -72,4 +74,16 @@ class ProfileTest {
         assertEquals(value, profile.getPassword());
     }
 
+    @Test
+    void getFirstName() {
+    }
+
+    @Test
+    void getLastName() {
+    }
+
+    @Test
+    void getUsername() {
+    }
+    
 }

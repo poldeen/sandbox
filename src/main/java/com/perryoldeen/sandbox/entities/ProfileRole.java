@@ -23,12 +23,13 @@ public class ProfileRole {
     @Column(name = "profileRoleId", nullable = false)
     private Long profileRoleId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profileId")
     @JsonIgnore
     private Profile profile;
 
-    @Column(name = "roleCd")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "roleName", length = 20)
+    private ERole roleName;
 
 }

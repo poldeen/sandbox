@@ -9,29 +9,20 @@ import com.perryoldeen.sandbox.entities.Profile;
 import com.perryoldeen.sandbox.entities.ProfileRole;
 import com.perryoldeen.sandbox.repositories.ProfileRepository;
 import com.perryoldeen.sandbox.repositories.ProfileRoleRepository;
-import com.perryoldeen.sandbox.security.jwt.JwtUtils;
-import com.perryoldeen.sandbox.security.services.UserDetailsImpl;
+import com.perryoldeen.sandbox.services.ProfileAuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired
-    AuthenticationManager authenticationManager;
 
     @Autowired
     ProfileRepository profileRepository;
@@ -43,29 +34,15 @@ public class AuthController {
     PasswordEncoder encoder;
 
     @Autowired
-    JwtUtils jwtUtils;
+    ProfileAuthenticationService profileAuthenticationService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        JwtResponse response = profileAuthenticationService.authenticateProfile(loginRequest);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        return ResponseEntity.ok(response);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getFirstName(),
-                userDetails.getLastName(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles));
     }
 
     @PostMapping("/signup")
@@ -89,8 +66,8 @@ public class AuthController {
                 signUpRequest.getLastName(),
                 encoder.encode(signUpRequest.getPassword()));
 
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<ProfileRole> profileRoles = new HashSet<>();
+        List<String> strRoles = signUpRequest.getRole();
+        List<ProfileRole> profileRoles = new ArrayList<>();
 
         ProfileRole profileRole = new ProfileRole();
 

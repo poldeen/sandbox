@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OptimisticLock;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This entity class represents a profile of a user.
@@ -46,7 +46,7 @@ public class Profile {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "profile", fetch = FetchType.LAZY)
     @OrderBy(value = "profileRoleId")
     @OptimisticLock(excluded = true)
-    private Set<ProfileRole> profileRoles = new HashSet<>();
+    private List<ProfileRole> profileRoles = new ArrayList<>();
 
     public Profile() {
     }

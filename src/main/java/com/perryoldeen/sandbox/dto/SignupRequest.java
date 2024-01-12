@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 public class SignupRequest {
@@ -24,7 +24,7 @@ public class SignupRequest {
     @Size(max = 50)
     private String uniqueId;
 
-    private Set<String> role;
+    private List<String> role;
 
     @NotBlank
     @Size(min = 6, max = 40)

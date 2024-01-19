@@ -3,13 +3,17 @@ package com.perryoldeen.sandbox.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.perryoldeen.sandbox.dto.JwtResponse;
 import com.perryoldeen.sandbox.dto.LoginRequest;
+import com.perryoldeen.sandbox.dto.SignupRequest;
 import com.perryoldeen.sandbox.services.ProfileAuthenticationService;
+import com.perryoldeen.sandbox.services.ProfileRegistrationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -22,10 +26,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class AuthControllerTest {
+class ProfileControllerTest {
 
     @MockBean
     private ProfileAuthenticationService profileAuthenticationService;
+
+    @MockBean
+    private ProfileRegistrationService profileRegistrationService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -60,6 +67,25 @@ class AuthControllerTest {
     }
 
     @Test
-    void registerUser() {
+    void registerUser() throws Exception {
+
+        SignupRequest request = new SignupRequest();
+        request.setFirstName("firstName");
+        request.setLastName("lastName");
+        request.setUsername("username");
+        request.setUniqueId("34923934hkljdafsklf");
+        request.setPassword("password");
+        List<String> roleList = new ArrayList<>();
+        roleList.add("admin");
+        request.setRole(roleList);
+
+        ResponseEntity<?> mockResponse = new ResponseEntity<>(HttpStatus.OK);
+
+        doReturn(mockResponse).when(profileRegistrationService).registerProfile(any());
+
+        mockMvc.perform(post("/api/auth/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                .andExpect(status().isOk());
     }
 }

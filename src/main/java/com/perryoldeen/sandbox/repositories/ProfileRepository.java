@@ -13,4 +13,6 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
     boolean existsByUsername(String username);
 
     boolean existsByUniqueId(String uniqueId);
+
+    Profile getByUniqueId(String uniqueId);
 }

@@ -1,52 +1,29 @@
-package com.perryoldeen.sandbox.controllers;
+package com.perryoldeen.sandbox.services;
 
-import com.perryoldeen.sandbox.dto.JwtResponse;
-import com.perryoldeen.sandbox.dto.LoginRequest;
 import com.perryoldeen.sandbox.dto.MessageResponse;
 import com.perryoldeen.sandbox.dto.SignupRequest;
 import com.perryoldeen.sandbox.entities.ERole;
 import com.perryoldeen.sandbox.entities.Profile;
 import com.perryoldeen.sandbox.entities.ProfileRole;
 import com.perryoldeen.sandbox.repositories.ProfileRepository;
-import com.perryoldeen.sandbox.repositories.ProfileRoleRepository;
-import com.perryoldeen.sandbox.services.ProfileAuthenticationService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
-@RestController
-@RequestMapping("/api/auth")
-public class AuthController {
+@Service
+public class ProfileRegistrationService {
 
     @Autowired
     ProfileRepository profileRepository;
 
     @Autowired
-    ProfileRoleRepository profileRoleRepository;
-
-    @Autowired
     PasswordEncoder encoder;
 
-    @Autowired
-    ProfileAuthenticationService profileAuthenticationService;
-
-    @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
-        JwtResponse response = profileAuthenticationService.authenticateProfile(loginRequest);
-
-        return ResponseEntity.ok(response);
-
-    }
-
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<?> registerProfile(SignupRequest signUpRequest) {
         if (profileRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()

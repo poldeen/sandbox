@@ -59,7 +59,7 @@ class ProfileControllerTest {
 
         doReturn(mockResponse).when(profileAuthenticationService).authenticateProfile(any());
 
-        mockMvc.perform(post("/api/auth/signin")
+        mockMvc.perform(post("/api/profile/signin")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
                 .andExpect(status().isOk());
@@ -83,7 +83,7 @@ class ProfileControllerTest {
 
         doReturn(mockResponse).when(profileRegistrationService).registerProfile(any());
 
-        mockMvc.perform(post("/api/auth/signup")
+        mockMvc.perform(post("/api/profile")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
                 .andExpect(status().isOk());

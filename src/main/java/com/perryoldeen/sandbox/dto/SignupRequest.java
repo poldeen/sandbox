@@ -8,20 +8,18 @@ import java.util.List;
 
 @Data
 public class SignupRequest {
-    @NotBlank
+
     @Size(max = 20)
     private String firstName;
 
-    @NotBlank
     @Size(max = 20)
     private String lastName;
 
     @NotBlank
-    @Size(min = 3, max = 20)
+    @Size(min = 3, max = 100)
     private String username;
 
-    @NotBlank
-    @Size(max = 50)
+    @Size(max = 100)
     private String uniqueId;
 
     private List<String> role;
